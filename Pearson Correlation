@@ -1,0 +1,70 @@
+# Import library math
+import math 
+
+#fungsi untung menghitung total data
+def total(x):
+  total = 0
+  for i in range(len(x)):
+    total = total + x[i]
+  return total
+  
+def korelasi_pearson(var_x,var_y): #mendefinisikan fungsi korelasi_pearson dengan input suatu list data
+
+  meanx = total(var_x)/len(var_x) #menghitung mean dari list var_x
+  meany = total(var_y)/len(var_y) #menghitung mean dari list var_y
+  pembilang = 0 #inisialisasi variabel yang nantinya akan menyimpan hasil dari total penjumlahan (x_i - meanx)*(y_i - meany)
+
+  #menghitung total penjumlahan (x_i-meanx)*(y_i-meany) untuk setiap x anggota var_x dan y anggota var_y
+  for i in range(len(var_x)):
+    pembilang = pembilang + (var_x[i]-meanx)*(var_y[i]-meany)
+
+  #inisialisasi variabel untuk menyimpan setiap hasil kuadrat dari (x_i - meanx) dan (y_i - meany)
+  xminbarxsquare = []
+  yminbarysquare = []
+
+  #menghitung  (x_i-meanx)**2 dan (y_i-meany)**2 untuk setiap x anggota var_x dan y anggota var_y
+  for i in range(len(x)):
+    xminbarxsquare.append((var_x[i]-meanx)**2)
+    yminbarysquare.append((var_y[i]-meany)**2)
+  
+  #mmenghitung total dari (x_i-meanx)**2 dan (y_i-meany)**2
+  total_bawah1 = total(xminbarxsquare)
+  total_bawah2 = total(yminbarysquare)
+
+  #menghitung penyebut
+  penyebut = math.sqrt(total_bawah1*total_bawah2)
+  
+  #menghitung korelasi pearson
+  r = pembilang/penyebut
+
+  #memberikan interpretasi dari data sesuai kondisi dari hasil perhitungan korelasi pearson
+  if r>=-1 and r<-0.9:
+    r_type = "Korelasi negatif sangat kuat"
+  elif r>=-0.9 and r<-0.7:
+    r_type = "Korelasi negatif kuat"
+  elif r>=-0.7 and r<-0.4:
+    r_type = "Korelasi negatif cukup kuat"
+  elif r>=-0.4 and r<-0.2:
+    r_type = "Korelasi negatif lemah"
+  elif r>=-0.2 and r<0:
+    r_type = "Korelasi negatif sangat lemah"
+  elif r==0:
+    r_type = "Tidak memiliki korelasi"
+  elif r>0 and r<=0.2:
+    r_type = "korelasi positif sangat lemah"
+  elif r>2 and r<=0.4:
+    r_type = "korelasi positif lemah"
+  elif r>0.4 and r<=0.7:
+    r_type = "Korelasi positif cukup kuat"
+  elif r>0.7 and r<=0.9:
+    r_type = "Korelasi positif kuat"
+  elif r>0.9 and r<=1:
+    r_type = "Korelasi positif sangat kuat"
+  
+  #memberikan output
+  print('Koefisien korelasi r = ', r, ', dengan kategori = ', r_type)
+  
+#Test program
+x = [3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3]
+y = [53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4]
+korelasi_pearson(x,y)
